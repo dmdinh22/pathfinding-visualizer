@@ -5,14 +5,51 @@ import './PathfindingVisualizer.css'
 export default class PathfindingVisualizer extends Component {
   constructor(props){
     super(props)
-    this.state = {}
+    this.state = {
+      nodes: []
+    }
+  }
+
+  componentDidMount() {
+    const nodes = []
+
+    for (let row = 0; row < 15; row++) {
+      const currRow = []
+      for (let col = 0; col < 50; col++) {
+        const currNode = {
+          col,
+          row,
+          isStart: row === 10 && col === 5,
+          isFinish: row === 10 && col === 45
+        }
+
+        currRow.push(currNode)
+      }
+      nodes.push(currRow)
+    }
+    this.setState({nodes})
   }
 
   render() {
+    const { nodes } = this.state
+    console.log(nodes);
+
     return (
-      <div>
-        Foo
-        <Node></Node>
+      <div className="grid">
+        {nodes.map((row, rowIdx) => {
+          return <div key={rowIdx}>
+            {row.map((node, nodeIdx) => {
+            const { isStart, isFinish} = node
+            return(
+            <Node key={nodeIdx}
+                  isStart={isStart}
+                  isFinish={isFinish}
+                  test={'foo'}
+                  test={'bar'}></Node>
+            )
+            })}
+            </div>
+        })}
       </div>
     )
   }
